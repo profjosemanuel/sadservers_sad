@@ -1,0 +1,26 @@
+services:
+    db_sad:
+        image: mariadb:10
+        volumes:
+            - data:/var/lib/mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=secret
+            - MYSQL_DATABASE=wordpress
+            - MYSQL_USER=manager
+            - MYSQL_PASSWORD=secret
+    web_sad:
+        image: wordpress:6
+        depends_on:
+            - prueba
+        volumes:
+            - ./target:/var/www/html
+        environment:
+            - WORDPRESS_DB_USER=manager
+            - WORDPRESS_DB_PASSWORD=secret
+            - WORDPRESS_DB_HOST=prueba
+            - WORDPRESS_DB_NAME=wordpress
+        ports:
+            - 8090:80
+
+volumes:
+    data:
